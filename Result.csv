@@ -1,9 +1,9 @@
  ;Sort Array;Reverse Array;Random Array;
-Binary Input; Comparison = 1345 Swap = 0; Comparison = 1200 Swap = 19703; Comparison = 1267 Swap = 9873
-Bubble Sort; Comparison = 19900 Swap = 0; Comparison = 19900 Swap = 19683; Comparison = 19900 Swap = 10017
-Heap Sort; Comparison = 1833 Swap = 1473; Comparison = 1378 Swap = 1200; Comparison = 1609 Swap = 1344
-Inserttion Sort; Comparison = 199 Swap = 0; Comparison = 199 Swap = 19667; Comparison = 199 Swap = 9231
-Quick Sort; Comparison = 303 Swap = 303; Comparison = 406 Swap = 406; Comparison = 640 Swap = 603
-Selection Sort; Comparison = 199 Swap = 0; Comparison = 199 Swap = 4422; Comparison = 199 Swap = 650
-Sheiker Sort; Comparison = 199 Swap = 0; Comparison = 19897 Swap = 19680; Comparison = 14335 Swap = 10532
-Shell Sort; Comparison = 734 Swap = 0; Comparison = 734 Swap = 770; Comparison = 734 Swap = 964
+Binary Input; Comparison = 1345 Swap = 0; Comparison = 1193 Swap = 19706; Comparison = 1261 Swap = 9935
+Bubble Sort; Comparison = 19900 Swap = 0; Comparison = 19900 Swap = 19706; Comparison = 19900 Swap = 9935
+Heap Sort; Comparison = 1812 Swap = 1464; Comparison = 1381 Swap = 1197; Comparison = 1634 Swap = 1357
+Inserttion Sort; Comparison = 199 Swap = 0; Comparison = 199 Swap = 19706; Comparison = 199 Swap = 9935
+Quick Sort; Comparison = 299 Swap = 299; Comparison = 396 Swap = 396; Comparison = 623 Swap = 583
+Selection Sort; Comparison = 199 Swap = 0; Comparison = 199 Swap = 4464; Comparison = 199 Swap = 696
+Sheiker Sort; Comparison = 199 Swap = 0; Comparison = 19897 Swap = 19706; Comparison = 13365 Swap = 9935
+Shell Sort; Comparison = 734 Swap = 0; Comparison = 734 Swap = 779; Comparison = 734 Swap = 1116

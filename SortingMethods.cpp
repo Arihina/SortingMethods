@@ -3,26 +3,27 @@
 #include <fstream>
 #include <string>
 #include <map>
+#include <vector>
 
 using namespace std;
 
-void readArray(string fileName, int arr[], const int size);
-void printArray(int arr[], const int size);
-void fillArray(int arr[], const int size);
+vector<int> readArray(string fileName, int size);
+void printArray(vector<int> arr);
+vector<int> fillArray(int size);
 
-pair<int, int> selectionSort(int arr[], const int size);
-pair<int, int> bubbleSort(int arr[], const int size);
-pair<int, int> inserttionSort(int arr[], const int size);
-pair<int, int> binaryInput(int arr[], const int size);
-pair<int, int> sheikerSort(int arr[], const int size);
-pair<int, int> shellSort(int arr[], const int size);
+pair<int, int> selectionSort(vector<int> arr);
+pair<int, int> bubbleSort(vector<int> arr);
+pair<int, int> inserttionSort(vector<int> arr);
+pair<int, int> binaryInput(vector<int> arr);
+pair<int, int> sheikerSort(vector<int> arr);
+pair<int, int> shellSort(vector<int> arr);
 int findInterval(int arr[], const int size);
-pair<int, int> heapSort(int arr[], const int size);
-void heap(int arr[], int i, const int size, int& countComparison, int& countSwap);
-void quickSortRecursion(int arr[], int left, int right, int& countComparison, int& countSwap);
-pair<int, int> quickSort(int arr[], const int size);
+pair<int, int> heapSort(vector<int> arr);
+void heap(vector<int>& arr, int i, int size, int& countComparison, int& countSwap);
+void quickSortRecursion(vector<int>& arr, int left, int right, int& countComparison, int& countSwap);
+pair<int, int> quickSort(vector<int> arr);
 
-typedef pair<int, int>(*func) (int arr[], const int size);
+typedef pair<int, int>(*func) (vector<int>);
 
 int main()
 {
@@ -41,9 +42,16 @@ int main()
         {"Quick Sort", quickSort}
     };
 
-    int sortArray[SIZE]{};
-    int reverseArray[SIZE]{};
-    int randomArray[SIZE]{};
+    vector<int> sortArray(SIZE);
+    sortArray = fillArray(SIZE);
+    vector<int> reverseArray(SIZE);
+    reverseArray = fillArray(SIZE);
+    vector<int> randomArray(SIZE);
+    randomArray = fillArray(SIZE);
+
+    sort(sortArray.begin(), sortArray.end());
+    sort(reverseArray.begin(), reverseArray.end());
+    reverse(reverseArray.begin(), reverseArray.end());
 
     pair<int, int> sortData, reverseData, randomData;
 
@@ -52,17 +60,9 @@ int main()
     out << " ;" << "Sort Array;" << "Reverse Array;" << "Random Array;" << endl;
     for (pair<string, func> function: functions)
     {
-        fillArray(randomArray, SIZE);
-        fillArray(sortArray, SIZE);
-        fillArray(reverseArray, SIZE);
-
-        sort(sortArray, sortArray + SIZE);
-        sort(reverseArray, reverseArray + SIZE);
-        reverse(reverseArray, reverseArray + SIZE);
-
-        sortData = functions[function.first](sortArray, SIZE);
-        reverseData = functions[function.first](reverseArray, SIZE);
-        randomData = functions[function.first](randomArray, SIZE);
+        sortData = functions[function.first](sortArray);
+        reverseData = functions[function.first](reverseArray);
+        randomData = functions[function.first](randomArray);
 
         cout << function.first << endl;
 		out << function.first << ";" << " Comparison = " << sortData.first << " Swap = " << sortData.second << ";" << " Comparison = " 
@@ -75,7 +75,8 @@ int main()
     out.close();
 }
 
-void readArray(string fileName, int arr[], const int size) {
+vector<int> readArray(string fileName, int size) {
+    vector<int> arr(size);
     ifstream fin; 
     string line;
     fin.open(fileName);
@@ -85,33 +86,35 @@ void readArray(string fileName, int arr[], const int size) {
         fin >> line;
         arr[i] = stoi(line);
     }
-
     fin.close();
+    return arr;
 }
 
-void printArray(int arr[], const int size) {
-    for (int i = 0; i < size; i++)
+void printArray(vector<int> arr) {
+    for (int i = 0; i < arr.size(); i++)
     {
         cout << arr[i] << " ";
     }
 
 }
 
-void fillArray(int arr[], const int size) {
+vector<int> fillArray(int size) {
+    vector<int> arr(size);
     for (int i = 0; i < size; i++)
     {
         arr[i] = rand() % 101;
     }
+    return arr;
 }
 
-pair<int, int> selectionSort(int arr[], const int size) {
+pair<int, int> selectionSort(vector<int> arr) {
 
     int index, countComparison = 0, countSwap = 0;
-    for (int i = 0; i < size - 1 ; i++)
+    for (int i = 0; i < arr.size() - 1; i++)
     {
         index = i;
         countComparison++;
-        for (int j = i + 1; j < size; j++) {
+        for (int j = i + 1; j < arr.size(); j++) {
             if (arr[j] < arr[index]) {
                 index = j;
                 countSwap++;
@@ -122,11 +125,11 @@ pair<int, int> selectionSort(int arr[], const int size) {
     return make_pair(countComparison, countSwap);
 }
 
-pair<int, int> bubbleSort(int arr[], const int size) {
+pair<int, int> bubbleSort(vector<int> arr) {
 
     int countComparison = 0, countSwap = 0;
-    for (int i = 0; i < size - 1; i++)
-        for (int j = size - 1; j > i; j--) {
+    for (int i = 0; i < arr.size() - 1; i++)
+        for (int j = arr.size() - 1; j > i; j--) {
             countComparison++;
             if (arr[j - 1] > arr[j]) {
                 swap(arr[j - 1], arr[j]);
@@ -136,11 +139,11 @@ pair<int, int> bubbleSort(int arr[], const int size) {
     return make_pair(countComparison, countSwap);
 }
 
-pair<int, int> inserttionSort(int arr[], const int size) {
+pair<int, int> inserttionSort(vector<int> arr) {
 
     int temp, j, countComparison = 0, countSwap = 0;
 
-    for (int i = 1; i < size; i++)
+    for (int i = 1; i < arr.size(); i++)
     {
         j = i;
         temp = arr[i];
@@ -156,9 +159,9 @@ pair<int, int> inserttionSort(int arr[], const int size) {
     return make_pair(countComparison, countSwap);
 }
 
-pair<int, int> sheikerSort(int arr[], const int size) {
+pair<int, int> sheikerSort(vector<int> arr) {
 
-    int l = 1, r = size - 1, k = size - 1, countComparison = 0, countSwap = 0;
+    int l = 1, r = arr.size() - 1, k = arr.size() - 1, countComparison = 0, countSwap = 0;
 
     while (l<=r)
     {
@@ -192,11 +195,11 @@ pair<int, int> sheikerSort(int arr[], const int size) {
     return make_pair(countComparison, countSwap);
 }
 
-pair<int, int> binaryInput(int arr[], const int size) {
+pair<int, int> binaryInput(vector<int> arr) {
 
     int x, left, right, middle, countComparison = 0, countSwap = 0;
 
-    for (int i = 1; i < size; i++)
+    for (int i = 1; i < arr.size(); i++)
     {
         x = arr[i];
         left = 0;
@@ -217,7 +220,7 @@ pair<int, int> binaryInput(int arr[], const int size) {
     return make_pair(countComparison, countSwap);
 }
 
-int findInterval(int arr[], const int size) {
+int findInterval(int arr[], int size) {
     int mul1 = 1, mul2 = 1, mul3 = 1, counter = -1;
     do
     {
@@ -237,16 +240,16 @@ int findInterval(int arr[], const int size) {
     return ((counter > 0) ? (--counter) : (0));
 }
 
-pair<int, int> shellSort(int arr[], const int size) {
+pair<int, int> shellSort(vector<int> arr) {
     const int interval_count = 30;
     int interval, counter, j, countComparison = 0, countSwap = 0;
     int interval_arr[interval_count];
-    counter = findInterval(interval_arr, size);
+    counter = findInterval(interval_arr, arr.size());
 
     while (counter >= 0)
     {
         interval = interval_arr[counter--];
-        for (int i = interval; i < size; i++)
+        for (int i = interval; i < arr.size(); i++)
         {
             countComparison++;
             int temp = arr[i];
@@ -261,7 +264,7 @@ pair<int, int> shellSort(int arr[], const int size) {
     return make_pair(countComparison, countSwap);
 }
 
-void heap(int arr[], int i, const int size, int& countComparison, int& countSwap) {
+void heap(vector<int>& arr, int i, int size, int& countComparison, int& countSwap) {
     int max = i;
     while (true)
     {
@@ -286,11 +289,11 @@ void heap(int arr[], int i, const int size, int& countComparison, int& countSwap
         }
     }
 }
-pair<int, int> heapSort(int arr[], int size) {
+pair<int, int> heapSort(vector<int> arr) {
     int countComparison = 0, countSwap = 0;
-    for (int i = size / 2; i >= 0; i--)
-        heap(arr, i, size, countComparison, countSwap);
-    for (int i = size - 1; i >= 1; i--)
+    for (int i = arr.size() / 2; i >= 0; i--)
+        heap(arr, i, arr.size(), countComparison, countSwap);
+    for (int i = arr.size() - 1; i >= 1; i--)
     {
         swap(arr[0], arr[i]);
         countSwap++;
@@ -299,7 +302,7 @@ pair<int, int> heapSort(int arr[], int size) {
     return make_pair(countComparison, countSwap);
 }
 
-void quickSortRecursion(int arr[], int left, int right, int& countComparison, int& countSwap) {
+void quickSortRecursion(vector<int>& arr, int left, int right, int& countComparison, int& countSwap) {
     int i = left, j = right, mid = arr[(left + right) / 2];
     if (left > right)
         return;
@@ -322,8 +325,8 @@ void quickSortRecursion(int arr[], int left, int right, int& countComparison, in
     quickSortRecursion(arr, i, right, countComparison, countSwap);
 }
 
-pair<int, int> quickSort(int arr[], const int size) {
+pair<int, int> quickSort(vector<int> arr) {
     int countComparison = 0, countSwap = 0;
-    quickSortRecursion(arr, 0, size-1, countComparison, countSwap);
+    quickSortRecursion(arr, 0, arr.size() - 1, countComparison, countSwap);
     return make_pair(countComparison, countSwap);
 }
